@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 09/18/2025 07:20:16 PM
+// Create Date: 10/28/2025 04:03:46 PM
 // Design Name: 
 // Module Name: ALU
 // Project Name: 
@@ -18,30 +18,29 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
 `include "Defines.sv"
 
 module ALU(
-    input logic [31:0] a,
-    input logic [31:0] b,
-    input ALU_OP_T alu_opcode,
-    output logic [31:0] result
+    output logic [31:0] Y,
+    output logic zero,
+    input logic [31:0] A,
+    input logic [31:0] B,
+    input logic [4:0] opcode
     );
     
-    always_comb begin
-        result = 32'd0;
-        
-        unique case (alu_opcode)
-            ALU_ADD:   result = a + b;
-            ALU_ADDI:  result = a + b;      // same hardware as ADD, immediate comes from decode
-            ALU_SUB:   result = a - b;
-            ALU_AND:   result = a & b;
-            ALU_OR:    result = a | b;
-            ALU_MUL:   result = a * b;
-            ALU_SLLI:  result = a << b[4:0]; // shift by lower 5 bits only (RISC-V spec)
-            ALU_SW:    result = a + b;       // effective address calculation
-            ALU_LW:    result = a + b;       // effective address calculation
-            ALU_HALT:  result = 32'd0;       // could trigger halt elsewhere
-            default:   result = 32'd0;
+   always_comb begin
+        case(opcode)
+            ALU_AND:    Y = A & B;
+            ALU_OR:     Y = A | B;
+            ALU_ADD:    Y = A + B;
+            ALU_SUB:    Y = A - B;
+            ALU_MULT:   Y = A * B;
+            ALU_SHIFT:  Y = A << B;
+            default:    Y = 32'd0;
         endcase
-    end
+   end
+   
+   assign zero = (Y == 32'd0);
+   
 endmodule

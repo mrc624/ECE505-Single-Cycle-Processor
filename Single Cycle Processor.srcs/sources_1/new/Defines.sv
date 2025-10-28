@@ -23,17 +23,13 @@
 `ifndef DEFINES_SV
 `define DEFINES_SV
 
-typedef enum logic [3:0] {
-    ALU_ADD   = 4'b0000,
-    ALU_ADDI  = 4'b0001,
-    ALU_SW    = 4'b0010,
-    ALU_LW    = 4'b0011,
-    ALU_SUB   = 4'b0100,
-    ALU_AND   = 4'b0101,
-    ALU_OR    = 4'b0110,
-    ALU_MUL   = 4'b0111,
-    ALU_SLLI  = 4'b1000,
-    ALU_HALT  = 4'b1111
+typedef enum logic [4:0] {
+    ALU_AND = 5'b00111,
+    ALU_OR =  5'b00110,
+    ALU_ADD = 5'b00000,
+    ALU_SUB = 5'b10000,
+    ALU_MULT =5'b01000,
+    ALU_SHIFT=5'b00001
 } ALU_OP_T;
 
 typedef enum logic [6:0] {
