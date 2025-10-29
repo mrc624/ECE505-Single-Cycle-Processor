@@ -30,13 +30,23 @@ typedef enum logic [4:0] {
     ALU_SUB = 5'b10000,
     ALU_MULT =5'b01000,
     ALU_SHIFT=5'b00001
+} ALU_OPCODE_T;
+
+typedef enum logic [1:0] {
+    ALU_OP_ADD = 2'b00,
+    ALU_OP_SUB = 2'b01,
+    ALU_OP_R_FUNC_2 = 2'b10,
+    ALU_OP_I_FUNC_3 = 2'b11
 } ALU_OP_T;
 
 typedef enum logic [6:0] {
     OPC_RTYPE = 7'b0110011, 
     OPC_ITYPE = 7'b0010011, 
-    OPC_LW    = 7'b0000011, 
-    OPC_SW    = 7'b0100011,  
+    OPC_LTYPE = 7'b0000011, 
+    OPC_STYPE = 7'b0100011,  
+    OPC_BTYPE = 7'b1100011,
+    OPC_JAL   = 7'b1101111,
+    OPC_DEFAULT=7'b0000000,
     OPC_HALT  = 7'b1111111  
 } OPCODE_T;
 
