@@ -24,7 +24,7 @@ module lab505(
     input CLOCK_20
     );
     
-    logic [10:0] PC;
+    logic [10:0] PC = -4;
     logic [10:0] PC_next;
     logic [10:0] PC_plus;
     logic [10:0] PC_offset;
@@ -33,7 +33,6 @@ module lab505(
     logic [31:0] A;
     logic [31:0] B;
     logic [31:0] Y;
-    logic [1:0] Y;
     logic [1:0] aluop;
     logic [4:0] aluopcode;
     logic zero;
@@ -49,7 +48,15 @@ module lab505(
     logic MemRead;
     logic MemtoReg;
     logic MemWrite;
+    logic RegWrite;
     logic Jump;
+    logic [31:0] rd1, rd2;
+    logic clk_main;
+    logic clk_secondary;
+    logic locked;
+    logic run;
+    logic [31:0] mem_data;
+    logic [31:0] wd;
     
     assign opcode = instr[6:0];
     assign rd = instr[11:7];
@@ -57,22 +64,20 @@ module lab505(
     assign rs1 = instr[19:15];
     assign rs2 = instr[24:20];
     assign funct7 = instr[31:25];
-    
-    initial 
-        PC = -4;
-        
-        assign run = instr[6:0] == OPC_HALT ? 1'b0: 1'b1;
+ 
+    assign run = instr[6:0] == OPC_HALT ? 1'b0: 1'b1;
+ 
     // PC
-    always_ff @ (posedge CLOCK_20) begin
+    always_ff @ (posedge clk_main) begin
         if (run) begin
-            PC = PC + 4;
+            PC <= PC_next;
         end
     end
     
     assign PC_plus = PC + 4;
-    assign PC_offset = PC + imm[10:0];
+    assign PC_offset = PC + $signed(imm[10:0]);
+    assign to_branch = (Branch & zero);
     assign PC_next = to_branch ? PC_offset : PC_plus;
-    assign to_branch = (Branch & ~zero) | Jump;
     
     // ALU
     assign A = rd1;
@@ -109,29 +114,45 @@ module lab505(
    // Register File
     assign wd = (MemtoReg) ? mem_data : Y;
     
-    reg_rom a4 (
-        .addr(PC),
-        .q(instr)
+    reg_file a4 ( 
+        .clk(clk_main),
+        .write(RegWrite),
+        .rr1(rs1),
+        .rr2(rs2),
+        .wr(rd),
+        .wd(wd),
+        .rd1(rd1),
+        .rd2(rd2)
     );
     
    // Immediate Generator
+   imm_gen a5 (
+        .instr(instr),
+        .imm_out(imm)
+   );
    
    //RAM
+   blk_mem_gen_0 a6 (
+        .clka(clk_main),
+        .ena(1'b1),
+        .wea(MemWrite),
+        .addra(Y[7:0]),
+        .dina(rd2),
+        .douta(mem_data)
+   );
    
    //Register ROM
-   
+    reg_rom a7 (
+        .addr(PC[4:0]),
+        .q(instr)
+    );
+    
    //MCM
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   clk_wiz_0 a8 (
+    .clk_in1(CLOCK_20),   // input clock
+    .clk_out1(clk_main),       // main processor clock
+    .clk_out2(clk_secondary),       // optional second-phase clock
+    .locked(locked)        // locked signal
+    );
+
 endmodule

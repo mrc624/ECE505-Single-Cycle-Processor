@@ -26,8 +26,8 @@ module tb_top(
     reg clk=0; 
 
     always
-        #1 clk = ~clk;
+        #25 clk = ~clk;
         
-    lab05 uut (.CLOCK_20(clk)); 
+    lab505 uut (.CLOCK_20(clk)); 
     
 endmodule

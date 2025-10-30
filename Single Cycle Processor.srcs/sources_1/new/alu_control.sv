@@ -31,6 +31,6 @@ module alu_control(
                        (instr_split == ALU_SUB) ? ALU_SUB :
                        (instr_split == ALU_AND) ? ALU_AND :
                        (instr_split == ALU_OR) ? ALU_OR:
-                       (instr_split == ALU_SHIFT) ? ALU_SFT:
+                       (instr_split == ALU_SHIFT) ? ALU_SHIFT:
                        ALU_ADD;
 endmodule
