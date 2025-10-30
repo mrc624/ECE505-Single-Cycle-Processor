@@ -51,4 +51,9 @@ typedef enum logic [6:0] {
     OPC_HALT  = 7'b1111111  
 } OPCODE_T;
 
+typedef enum logic [2:0] {
+    BTYPE_FUNCT3_BEQ = 3'b000;
+    BTYPE_FUNCT3_BNE = 3'b001;
+} BTYPE_FUNCT3;
+
 `endif

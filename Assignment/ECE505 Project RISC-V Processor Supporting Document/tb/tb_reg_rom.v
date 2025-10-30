@@ -33,6 +33,7 @@ integer i;
   initial begin
     for (i = 0; i < 32; i = i + 1)begin
       addr = i;
+      $display("t=%d, addr=%d, instr=%h", $time, addr, q);
       #1;
     end
     $stop;
