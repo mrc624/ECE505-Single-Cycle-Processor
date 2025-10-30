@@ -21,7 +21,7 @@
 
 module tb_imm_gen;
   reg [31:0] instr; //32 bit instruction
-  wire [11:0] out;
+  wire [31:0] out;
 
   imm_gen TEST(instr, out);
 

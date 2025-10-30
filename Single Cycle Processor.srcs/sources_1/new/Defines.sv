@@ -46,6 +46,7 @@ typedef enum logic [6:0] {
     OPC_STYPE = 7'b0100011,  
     OPC_BTYPE = 7'b1100011,
     OPC_JAL   = 7'b1101111,
+    OPC_JALR  = 7'b1100111,
     OPC_DEFAULT=7'b0000000,
     OPC_HALT  = 7'b1111111  
 } OPCODE_T;
