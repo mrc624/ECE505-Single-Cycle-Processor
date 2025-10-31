@@ -139,11 +139,10 @@ module lab505(
    );
    
    //RAM
-   blk_mem_gen_0 a6 (
+   ram a6 (
         .clka(clk_main),
-        .ena(1'b1),
         .wea(MemWrite),
-        .addra(Y[7:0]),
+        .addra(Y),
         .dina(rd2),
         .douta(mem_data)
    );

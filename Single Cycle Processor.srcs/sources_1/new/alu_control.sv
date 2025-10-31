@@ -33,6 +33,10 @@ module alu_control(
     assign op5 = instr_split[4:3];
 
     always_comb begin
+    
+    $display("Time: %0t | aluop = %0b | aluopcode = %0b | funct3 = %0b", 
+                 $time, aluop, aluopcode, funct3);
+    
         if (aluop == ALU_OP_LOAD_STORE) begin
             aluopcode = ALU_ADD;
         end
@@ -48,6 +52,8 @@ module alu_control(
                 3'b100: aluopcode = ALU_SUB;
                 default: aluopcode = ALU_ADD;
             endcase
+        end else if (aluop == ALU_OP_I && funct3 == 3'b001) begin
+            aluopcode = ALU_SHIFT;
         end
         else begin
             aluopcode = ALU_ADD;

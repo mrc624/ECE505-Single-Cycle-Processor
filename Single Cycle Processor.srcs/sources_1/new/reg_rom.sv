@@ -54,7 +54,7 @@ module reg_rom(
         file[10] = 32'h0122a023;
         file[11] = 32'hFFFFFFFF;
 
-        for (i = 9; i < 32; i = i + 1) begin
+        for (i = 12; i < 32; i = i + 1) begin
             file[i] = 32'b0;
         end
     
