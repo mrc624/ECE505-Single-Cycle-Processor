@@ -25,12 +25,31 @@ module alu_control(
 	input logic [1:0] aluop,
 	output logic [4:0] aluopcode
 );
-    assign aluopcode = (aluop == ALU_OP_ADD) ? ALU_ADD :
-                       (aluop == ALU_OP_SUB) ? ALU_SUB :
-                       (instr_split == ALU_ADD) ? ALU_ADD :
-                       (instr_split == ALU_SUB) ? ALU_SUB :
-                       (instr_split == ALU_AND) ? ALU_AND :
-                       (instr_split == ALU_OR) ? ALU_OR:
-                       (instr_split == ALU_SHIFT) ? ALU_SHIFT:
-                       ALU_ADD;
+
+    logic [2:0] funct3;
+    logic funct7;
+
+    assign funct3 = instr_split[2:0];
+    assign funct7 = instr_split[4];
+
+    always_comb begin
+        if (aluop == ALU_OP_LOAD_STORE) begin
+            aluopcode = ALU_ADD;
+        end
+        else if (aluop == ALU_OP_BRANCH) begin
+            aluopcode = ALU_SUB;
+        end
+        else if (aluop == ALU_OP_R) begin
+            case (funct3)
+                3'b000: aluopcode = funct7 ? ALU_SUB : ALU_ADD;
+                3'b010: aluopcode = ALU_ADD;
+                3'b110: aluopcode = ALU_OR;
+                3'b111: aluopcode = ALU_AND;
+                default: aluopcode = ALU_ADD;
+            endcase
+        end
+        else begin
+            aluopcode = ALU_ADD;
+        end
+    end
 endmodule

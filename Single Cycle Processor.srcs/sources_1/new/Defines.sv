@@ -33,10 +33,10 @@ typedef enum logic [4:0] {
 } ALU_OPCODE_T;
 
 typedef enum logic [1:0] {
-    ALU_OP_ADD = 2'b00,
-    ALU_OP_SUB = 2'b01,
-    ALU_OP_R_FUNC_2 = 2'b10,
-    ALU_OP_I_FUNC_3 = 2'b11
+    ALU_OP_LOAD_STORE = 2'b00,
+    ALU_OP_BRANCH = 2'b01,
+    ALU_OP_R = 2'b10,
+    ALU_OP_I = 2'b11
 } ALU_OP_T;
 
 typedef enum logic [6:0] {

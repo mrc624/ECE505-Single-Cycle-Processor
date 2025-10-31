@@ -41,18 +41,18 @@ module control_unit(
         ALUSrc = 0;
         RegWrite = 0;
         Jump = 0;
-        aluop = ALU_OP_ADD;
+        aluop = ALU_OP_LOAD_STORE;
         
         case(instr)
             OPC_RTYPE: begin
                 RegWrite = 1;
-                aluop = ALU_OP_R_FUNC_2;
+                aluop = ALU_OP_R;
             end
             
             OPC_ITYPE: begin
                 ALUSrc = 1;
                 RegWrite = 1;
-                aluop = ALU_OP_I_FUNC_3;
+                aluop = ALU_OP_I;
             end
             
             OPC_LTYPE: begin
@@ -60,24 +60,24 @@ module control_unit(
                 MemtoReg = 1;
                 RegWrite = 1;
                 MemRead = 1;
-                aluop = ALU_OP_ADD;
+                aluop = ALU_OP_LOAD_STORE;
             end
             
             OPC_STYPE: begin
                 ALUSrc = 1;
                 MemWrite = 1;
-                aluop = ALU_OP_ADD;
+                aluop = ALU_OP_LOAD_STORE;
             end
             
             OPC_BTYPE: begin
                 Branch = 1;
-                aluop = ALU_OP_SUB;
+                aluop = ALU_OP_BRANCH;
             end
             
             OPC_JAL: begin
                 RegWrite = 1;
                 Jump = 1;
-                aluop = ALU_OP_ADD;
+                aluop = ALU_OP_LOAD_STORE;
             end
             
             default: begin
@@ -88,7 +88,7 @@ module control_unit(
                 ALUSrc = 0;
                 RegWrite = 0;
                 Jump = 0;
-                aluop = ALU_OP_ADD;
+                aluop = ALU_OP_LOAD_STORE;
             end
         endcase
     end
