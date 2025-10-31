@@ -58,11 +58,14 @@ module lab505(
     logic run;
     logic [31:0] mem_data;
     logic [31:0] wd;
+    logic [4:0] ALU_instr_split;
     
     assign opcode = instr[6:0];
     assign rd = instr[11:7];
     assign funct3 = instr[14:12];
     assign rs1 = instr[19:15];
+    assign ALU_instr_split = {instr[30], instr[25], funct3};
+    
     assign rs2 = instr[24:20];
     assign funct7 = instr[31:25];
  
@@ -110,7 +113,7 @@ module lab505(
 
    //ALU Controller
    alu_control a3 (
-        .instr_split( {instr[30], instr[25], funct3} ),
+        .instr_split(ALU_instr_split),
         .aluop(aluop),
         .aluopcode(aluopcode)
    );

@@ -27,10 +27,10 @@ module alu_control(
 );
 
     logic [2:0] funct3;
-    logic funct7;
+    logic [1:0] op5;
 
     assign funct3 = instr_split[2:0];
-    assign funct7 = instr_split[4];
+    assign op5 = instr_split[4:3];
 
     always_comb begin
         if (aluop == ALU_OP_LOAD_STORE) begin
@@ -41,7 +41,7 @@ module alu_control(
         end
         else if (aluop == ALU_OP_R) begin
             case (funct3)
-                3'b000: aluopcode = funct7 ? ALU_SUB : ALU_ADD;
+                3'b000: aluopcode = (op5 == 2'b11) ? ALU_SUB : ALU_ADD;
                 3'b010: aluopcode = ALU_ADD;
                 3'b110: aluopcode = ALU_OR;
                 3'b111: aluopcode = ALU_AND;

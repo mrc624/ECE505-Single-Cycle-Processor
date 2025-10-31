@@ -34,10 +34,10 @@ module reg_rom(
         file[1] = 32'h01000113; // addi x2, x0, 16
         file[2] = 32'h06400193; // addi x3, x0, 100
         file[3] = 32'h00800213; // addi x4, x0, 8
-        file[4] = 32'h002081B3; // add x5, x1, x2
-        file[5] = 32'h00418233; // add x6, x3, x4
-        file[6] = 32'h00510023; // sw x5, 0(x1)
-        file[7] = 32'h00611023; // sw x6, 4(x2)
+        file[4] = 32'h002082b3; // add x5, x1, x2
+        file[5] = 32'h00418333; // add x6, x3, x4
+        file[6] = 32'h0050a023; // sw x5, 0(x1)
+        file[7] = 32'h00612223; // sw x6, 4(x2)
         file[8] = 32'hFFFFFFFF; // HALT
 
         for (i = 9; i < 32; i = i + 1) begin

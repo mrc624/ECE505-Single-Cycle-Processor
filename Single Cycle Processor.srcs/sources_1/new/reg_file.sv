@@ -48,7 +48,6 @@ module reg_file(
     always_ff @(posedge clk) begin
         if (write && (wr != 5'b0)) begin
             file[wr] <= wd;
-             $display("[%0t] reg_file: WRITE enable. wr=x%0d wd=0x%08h", $time, wr, wd);
         end
     end
 endmodule
