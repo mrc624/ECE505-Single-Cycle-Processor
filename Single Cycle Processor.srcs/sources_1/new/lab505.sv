@@ -25,6 +25,7 @@ module lab505(
     );
     
     logic [10:0] PC = -4;
+    logic [4:0] PC_word_aligned;
     logic [10:0] PC_next;
     logic [10:0] PC_plus;
     logic [10:0] PC_offset;
@@ -53,7 +54,7 @@ module lab505(
     logic [31:0] rd1, rd2;
     logic clk_main;
     logic clk_secondary;
-    logic locked;
+    logic locked = 1;
     logic run;
     logic [31:0] mem_data;
     logic [31:0] wd;
@@ -65,7 +66,9 @@ module lab505(
     assign rs2 = instr[24:20];
     assign funct7 = instr[31:25];
  
-    assign run = instr[6:0] == OPC_HALT ? 1'b0: 1'b1;
+    assign run = opcode == OPC_HALT ? 1'b0: 1'b1;
+    
+    assign clk_main = CLOCK_20;
  
     // PC
     always_ff @ (posedge clk_main) begin
@@ -78,6 +81,7 @@ module lab505(
     assign PC_offset = PC + $signed(imm[10:0]);
     assign to_branch = (Branch & zero);
     assign PC_next = to_branch ? PC_offset : PC_plus;
+    assign PC_word_aligned = PC >> 2;
     
     // ALU
     assign A = rd1;
@@ -143,16 +147,18 @@ module lab505(
    
    //Register ROM
     reg_rom a7 (
-        .addr(PC[4:0]),
+        .addr(PC_word_aligned),
         .q(instr)
     );
     
    //MCM
-   clk_wiz_0 a8 (
+   
+   // uncomment when not simulating
+   /*clk_wiz_0 a8 (
     .clk_in1(CLOCK_20),   // input clock
     .clk_out1(clk_main),       // main processor clock
     .clk_out2(clk_secondary),       // optional second-phase clock
     .locked(locked)        // locked signal
-    );
+    );*/
 
 endmodule
