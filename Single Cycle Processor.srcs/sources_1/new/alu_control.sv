@@ -42,9 +42,10 @@ module alu_control(
         else if (aluop == ALU_OP_R) begin
             case (funct3)
                 3'b000: aluopcode = (op5 == 2'b11) ? ALU_SUB : ALU_ADD;
-                3'b010: aluopcode = ALU_ADD;
+                3'b010: aluopcode = ALU_MULT;
                 3'b110: aluopcode = ALU_OR;
                 3'b111: aluopcode = ALU_AND;
+                3'b100: aluopcode = ALU_SUB;
                 default: aluopcode = ALU_ADD;
             endcase
         end

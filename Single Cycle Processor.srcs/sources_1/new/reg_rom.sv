@@ -30,15 +30,29 @@ module reg_rom(
     
     initial begin
         // program1
-        file[0] = 32'h00000093; // addi x1, x0, 0
-        file[1] = 32'h01000113; // addi x2, x0, 16
-        file[2] = 32'h06400193; // addi x3, x0, 100
-        file[3] = 32'h00800213; // addi x4, x0, 8
-        file[4] = 32'h002082b3; // add x5, x1, x2
-        file[5] = 32'h00418333; // add x6, x3, x4
-        file[6] = 32'h0050a023; // sw x5, 0(x1)
-        file[7] = 32'h00612223; // sw x6, 4(x2)
-        file[8] = 32'hFFFFFFFF; // HALT
+        /*file[0] = 32'h00000093;
+        file[1] = 32'h01000113;
+        file[2] = 32'h06400193;
+        file[3] = 32'h00800213;
+        file[4] = 32'h002082b3;
+        file[5] = 32'h00418333;
+        file[6] = 32'h0050a023;
+        file[7] = 32'h00612223;
+        file[8] = 32'hFFFFFFFF;*/
+        
+        // program2
+        file[0] = 32'h00800293;
+        file[1] = 32'h00f00313;
+        file[2] = 32'h0062a023;
+        file[3] = 32'h005303b3;
+        file[4] = 32'h40530e33;
+        file[5] = 32'h03c384b3;
+        file[6] = 32'h00428293;
+        file[7] = 32'hffc2a903;
+        file[8] = 32'h41248933;
+        file[9] = 32'h00291913;
+        file[10] = 32'h0122a023;
+        file[11] = 32'hFFFFFFFF;
 
         for (i = 9; i < 32; i = i + 1) begin
             file[i] = 32'b0;
