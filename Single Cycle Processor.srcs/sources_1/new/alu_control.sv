@@ -41,7 +41,7 @@ module alu_control(
         end
         else if (aluop == ALU_OP_R) begin
             case (funct3)
-                3'b000: aluopcode = (op5 == 2'b11) ? ALU_SUB : 
+                3'b000: aluopcode = (op5 == 2'b10) ? ALU_SUB : 
                                     (op5 == 2'b01) ? ALU_MULT :
                                     ALU_ADD;
                 3'b010: aluopcode = ALU_MULT;

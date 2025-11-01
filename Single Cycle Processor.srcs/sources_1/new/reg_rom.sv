@@ -58,12 +58,8 @@ module reg_rom(
         file[10] = 32'h0122a023;
         file[11] = 32'hFFFFFFFF;*/
         
-        if (addr == 3) begin
-            $display("HALT ADDRESS REACHED");
-        end
-        
         // program 3
-        file[0] = 32'h00c00513;
+        /*file[0] = 32'h00c00513;
         file[1] = 32'h00c000ef;
         file[2] = 32'h00a02023;
         file[3] = 32'hffffffff;
@@ -82,8 +78,15 @@ module reg_rom(
         file[16] = 32'h00810113;
         file[17] = 32'h02550533;
         file[18] = 32'h00008067;
-        file[19] = 32'hFFFFFFFF;
-    
+        file[19] = 32'hFFFFFFFF;*/
+        
+        // custom program to test beq
+        file[0] = 32'h00c00513;
+        file[1] = 32'h00100593;
+        file[2] = 32'h40b50533;
+        file[3] = 32'h00050463;
+        file[4] = 32'hff9ff0ef;
+        file[5] = 32'hffffffff;
     end
     
     assign q = file[addr];
