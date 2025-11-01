@@ -32,11 +32,7 @@ module alu_control(
     assign funct3 = instr_split[2:0];
     assign op5 = instr_split[4:3];
 
-    always_comb begin
-    
-    $display("Time: %0t | aluop = %0b | aluopcode = %0b | funct3 = %0b", 
-                 $time, aluop, aluopcode, funct3);
-    
+    always_comb begin    
         if (aluop == ALU_OP_LOAD_STORE) begin
             aluopcode = ALU_ADD;
         end
@@ -45,7 +41,9 @@ module alu_control(
         end
         else if (aluop == ALU_OP_R) begin
             case (funct3)
-                3'b000: aluopcode = (op5 == 2'b11) ? ALU_SUB : ALU_ADD;
+                3'b000: aluopcode = (op5 == 2'b11) ? ALU_SUB : 
+                                    (op5 == 2'b01) ? ALU_MULT :
+                                    ALU_ADD;
                 3'b010: aluopcode = ALU_MULT;
                 3'b110: aluopcode = ALU_OR;
                 3'b111: aluopcode = ALU_AND;

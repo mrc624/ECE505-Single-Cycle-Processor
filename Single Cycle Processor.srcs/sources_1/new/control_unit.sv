@@ -80,6 +80,13 @@ module control_unit(
                 aluop = ALU_OP_LOAD_STORE;
             end
             
+            OPC_JALR: begin
+                RegWrite = 1;
+                Jump = 1;
+                ALUSrc = 1;
+                aluop = ALU_OP_LOAD_STORE;
+            end
+            
             default: begin
                 Branch = 0;
                 MemRead = 0;

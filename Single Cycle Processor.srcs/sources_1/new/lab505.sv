@@ -41,7 +41,6 @@ module lab505(
     logic[31:0] instr;
     logic [6:0] opcode;
     logic [4:0] rd, rs1, rs2;
-    logic [2:0] func3;
     logic [6:0] funct7;
     logic [31:0] imm;
     logic ALUSrc;
@@ -59,6 +58,8 @@ module lab505(
     logic [31:0] mem_data;
     logic [31:0] wd;
     logic [4:0] ALU_instr_split;
+    logic take_branch;
+    logic [2:0] funct3;
     
     assign opcode = instr[6:0];
     assign rd = instr[11:7];
@@ -70,7 +71,7 @@ module lab505(
     assign funct7 = instr[31:25];
  
     assign run = opcode == OPC_HALT ? 1'b0: 1'b1;
-    
+ 
     assign clk_main = CLOCK_20;
  
     // PC
@@ -81,8 +82,11 @@ module lab505(
     end
     
     assign PC_plus = PC + 4;
-    assign PC_offset = PC + $signed(imm[10:0]);
-    assign to_branch = (Branch & zero);
+    assign PC_offset = opcode == OPC_JALR ? rd1 + $signed(imm[10:0]): PC + $signed(imm[10:0]);
+    assign take_branch = (funct3 == BTYPE_FUNCT3_BEQ) ? zero :
+                         (funct3 == BTYPE_FUNCT3_BNE) ? ~zero :
+                         1'b0;
+    assign to_branch = (Branch & take_branch) | Jump;
     assign PC_next = to_branch ? PC_offset : PC_plus;
     assign PC_word_aligned = PC >> 2;
     
@@ -119,7 +123,9 @@ module lab505(
    );
    
    // Register File
-    assign wd = (MemtoReg) ? mem_data : Y;
+    assign wd = (Jump) ? PC_plus: 
+                (MemtoReg) ? mem_data :
+                Y;
     
     reg_file a4 ( 
         .clk(clk_main),
