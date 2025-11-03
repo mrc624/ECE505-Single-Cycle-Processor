@@ -21,7 +21,7 @@
 `include "Defines.sv"
 
 module lab505(
-    input CLOCK_20
+    input logic CLOCK_20
     );
     
     logic [10:0] PC = -4;
@@ -71,8 +71,6 @@ module lab505(
     assign funct7 = instr[31:25];
  
     assign run = opcode == OPC_HALT ? 1'b0: 1'b1;
- 
-    assign clk_main = CLOCK_20;
  
     // PC
     always_ff @ (posedge clk_main) begin
@@ -148,25 +146,25 @@ module lab505(
    ram a6 (
         .clka(clk_main),
         .wea(MemWrite),
-        .addra(Y),
+        .addra(Y[7:0]),
         .dina(rd2),
         .douta(mem_data)
    );
    
    //Register ROM
     reg_rom a7 (
-        .addr(PC_word_aligned),
+        .addr(PC_word_aligned[4:0]),
         .q(instr)
     );
     
    //MCM
-   
-   // uncomment when not simulating
+   // comment the following when simulating
    /*clk_wiz_0 a8 (
     .clk_in1(CLOCK_20),   // input clock
     .clk_out1(clk_main),       // main processor clock
     .clk_out2(clk_secondary),       // optional second-phase clock
     .locked(locked)        // locked signal
     );*/
-
+    // uncomment the following when simulating
+    assign clk_main = CLOCK_20;
 endmodule

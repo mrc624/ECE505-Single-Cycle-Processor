@@ -25,70 +25,65 @@ module reg_rom(
     output logic [31:0] q
     );
     
-    logic [31:0] file [31:0];
-    integer i;
-    
-    initial begin
-        for (i = 0; i < 32; i = i + 1) begin // update the beginning position of i when switching programs
-            file[i] = 32'b0;
-        end
-    
-        // program1
-        /*file[0] = 32'h00000093;
-        file[1] = 32'h01000113;
-        file[2] = 32'h06400193;
-        file[3] = 32'h00800213;
-        file[4] = 32'h002082b3;
-        file[5] = 32'h00418333;
-        file[6] = 32'h0050a023;
-        file[7] = 32'h00612223;
-        file[8] = 32'hFFFFFFFF;*/
-        
-        // program2
-        /*file[0] = 32'h00800293;
-        file[1] = 32'h00f00313;
-        file[2] = 32'h0062a023;
-        file[3] = 32'h005303b3;
-        file[4] = 32'h40530e33;
-        file[5] = 32'h03c384b3;
-        file[6] = 32'h00428293;
-        file[7] = 32'hffc2a903;
-        file[8] = 32'h41248933;
-        file[9] = 32'h00291913;
-        file[10] = 32'h0122a023;
-        file[11] = 32'hFFFFFFFF;*/
-        
-        // program 3
-        /*file[0] = 32'h00c00513;
-        file[1] = 32'h00c000ef;
-        file[2] = 32'h00a02023;
-        file[3] = 32'hffffffff;
-        file[4] = 32'hff810113;
-        file[5] = 32'h00112223;
-        file[6] = 32'h00a12023;
-        file[7] = 32'hfff50513;
-        file[8] = 32'h00051863;
-        file[9] = 32'h00100513;
-        file[10] = 32'h00810113;
-        file[11] = 32'h00008067;
-        file[12] = 32'hfe1ff0ef;
-        file[13] = 32'h00050293;
-        file[14] = 32'h00012503;
-        file[15] = 32'h00412083;
-        file[16] = 32'h00810113;
-        file[17] = 32'h02550533;
-        file[18] = 32'h00008067;
-        file[19] = 32'hFFFFFFFF;*/
-        
-        // custom program to test beq
-        file[0] = 32'h00c00513;
-        file[1] = 32'h00100593;
-        file[2] = 32'h40b50533;
-        file[3] = 32'h00050463;
-        file[4] = 32'hff9ff0ef;
-        file[5] = 32'hffffffff;
+    always_comb begin
+        case(addr)
+            // Program 1
+            5'd0:  q = 32'h00000093;
+            5'd1:  q = 32'h01000113;
+            5'd2:  q = 32'h06400193;
+            5'd3:  q = 32'h00800213;
+            5'd4:  q = 32'h002082b3;
+            5'd5:  q = 32'h00418333;
+            5'd6:  q = 32'h0050a023;
+            5'd7:  q = 32'h00612223;
+            5'd8:  q = 32'hFFFFFFFF;
+
+            // Program 2
+            /*5'd0:  q = 32'h00800293;
+            5'd1:  q = 32'h00f00313;
+            5'd2:  q = 32'h0062a023;
+            5'd3:  q = 32'h005303b3;
+            5'd4:  q = 32'h40530e33;
+            5'd5:  q = 32'h03c384b3;
+            5'd6:  q = 32'h00428293;
+            5'd7:  q = 32'hffc2a903;
+            5'd8:  q = 32'h41248933;
+            5'd9:  q = 32'h00291913;
+            5'd10: q = 32'h0122a023;
+            5'd11: q = 32'hFFFFFFFF;*/
+
+            // Factorial Program
+            /*5'd0:  q = 32'h00c00513;
+            5'd1:  q = 32'h00c000ef;
+            5'd2:  q = 32'h00a02023;
+            5'd3:  q = 32'hFFFFFFFF;
+            5'd4:  q = 32'hff810113;
+            5'd5:  q = 32'h00112223;
+            5'd6:  q = 32'h00a12023;
+            5'd7:  q = 32'hfff50513;
+            5'd8:  q = 32'h00051863;
+            5'd9:  q = 32'h00100513;
+            5'd10: q = 32'h00810113;
+            5'd11: q = 32'h00008067;
+            5'd12: q = 32'hfe1ff0ef;
+            5'd13: q = 32'h00050293;
+            5'd14: q = 32'h00012503;
+            5'd15: q = 32'h00412083;
+            5'd16: q = 32'h00810113;
+            5'd17: q = 32'h02550533;
+            5'd18: q = 32'h00008067;
+            5'd19: q = 32'hFFFFFFFF;*/
+
+            // Custom program to test BEQ
+            /*5'd0:  q = 32'h00c00513;
+            5'd1:  q = 32'h00100593;
+            5'd2:  q = 32'h40b50533;
+            5'd3:  q = 32'h00050463;
+            5'd4:  q = 32'hff9ff0ef;
+            5'd5:  q = 32'hFFFFFFFF;*/
+
+            default: q = 32'b0;
+        endcase
     end
-    
-    assign q = file[addr];
     
 endmodule

@@ -39,7 +39,7 @@ module reg_file(
         for (i = 0; i < 32; i = i + 1) begin
             file[i] = 32'b0;
         end
-        file[2] = 32'h7ffffff0;
+            file[2] = 32'h7ffffff0;
     end
     
     assign rd1 = (rr1 == 5'b0) ? 32'b0 : file[rr1];
